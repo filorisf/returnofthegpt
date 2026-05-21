@@ -6,8 +6,9 @@ export class HUDScene extends Phaser.Scene {
   constructor() { super('HUDScene'); }
 
   init(data) {
-    this.mySide  = data.side;
+    this.mySide     = data.side;
     this.heroConfig = HEROES[data.heroId] ?? HEROES.warrior;
+    this.layout     = data.layout ?? 'azerty';
   }
 
   create() {
@@ -56,14 +57,15 @@ export class HUDScene extends Phaser.Scene {
 
     // ── CENTER: ability boxes ────────────────────────────────────────
     const cx = W / 2;
+    const [k1, k2] = this.layout === 'azerty' ? ['A', 'Z'] : ['Q', 'W'];
     this.add.text(cx, Y0 + 8, 'CAPACITÉS', {
       fontSize: '10px', fontFamily: 'monospace', color: '#334466',
     }).setOrigin(0.5).setDepth(21);
-    this._qBox = this._abilityBox(cx - 68, Y0 + 55, 'Q', this.heroConfig.abilities.Q);
-    this._eBox = this._abilityBox(cx + 68, Y0 + 55, 'E', this.heroConfig.abilities.W);
+    this._qBox = this._abilityBox(cx - 68, Y0 + 55, k1, this.heroConfig.abilities.Q);
+    this._eBox = this._abilityBox(cx + 68, Y0 + 55, k2, this.heroConfig.abilities.W);
 
     // ── RIGHT: keybind hints ─────────────────────────────────────────
-    ['Clic droit  → déplacer', 'Clic gauche → attaquer', 'Q / E       → capacités']
+    [`Clic droit  → déplacer`, `Clic gauche → attaquer`, `${k1} / ${k2}       → capacités`]
       .forEach((h, i) => {
         this.add.text(W - 14, Y0 + 18 + i * 18, h, {
           fontSize: '11px', fontFamily: 'monospace', color: '#2a3a4a',

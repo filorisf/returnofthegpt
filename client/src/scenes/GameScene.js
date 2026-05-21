@@ -41,7 +41,7 @@ export class GameScene extends Phaser.Scene {
     const myHero = [...this.heroes.values()].find(h => h.isMe);
     if (myHero) this._followTarget.setPosition(myHero.state.x, myHero.state.y);
 
-    this.scene.launch('HUDScene', { side: this.mySide, heroId: this.myHeroId });
+    this.scene.launch('HUDScene', { side: this.mySide, heroId: this.myHeroId, layout: this.layout });
 
     this._setupInput();
     this._setupSocket();
@@ -111,12 +111,13 @@ export class GameScene extends Phaser.Scene {
       }
     });
 
-    // Abilities
-    this.input.keyboard.on('keydown-Q', () => {
+    // Abilities — keys depend on keyboard layout
+    const [key1, key2] = this.layout === 'azerty' ? ['A', 'Z'] : ['Q', 'W'];
+    this.input.keyboard.on(`keydown-${key1}`, () => {
       const ptr = this.input.activePointer;
       this.socket.emit('ability', { key: 'Q', targetX: ptr.worldX, targetY: ptr.worldY });
     });
-    this.input.keyboard.on('keydown-E', () => {
+    this.input.keyboard.on(`keydown-${key2}`, () => {
       const ptr = this.input.activePointer;
       this.socket.emit('ability', { key: 'W', targetX: ptr.worldX, targetY: ptr.worldY });
     });
