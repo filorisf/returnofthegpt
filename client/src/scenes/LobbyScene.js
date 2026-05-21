@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { HEROES } from '../../../shared/constants.js';
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001';
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'https://returnofthegpt.onrender.com';
 
 export class LobbyScene extends Phaser.Scene {
   constructor() { super('LobbyScene'); }
